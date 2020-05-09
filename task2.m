@@ -21,8 +21,9 @@ for i=1:numImages
         input = im2double(imread(nameImage));
         input = rgb2gray(input);
         ROI = getROI(input, i);
-        subplot(1,2,1)
         imshow(ROI), title("ROI " + (i-nonImages));
+        [centers, radii] = findCells(ROI);
+        viscircles(centers, radii);
         pause;
     end
 end
