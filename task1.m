@@ -14,14 +14,16 @@ folderInfo = dir(nameDir);
 numImages = size(folderInfo, 1);
 nonImages = 0;
 % Open and process the images sequentially
-for i=1:numImages
-    if (getfield(folderInfo(i),'bytes')==0)
+for i=1:10
+    if ((folderInfo(i).bytes)==0)
         nonImages = nonImages+1;
     else
         close all;
-        nameImage = strcat(nameDir,'\',getfield(folderInfo(i),'name'));
+        nameImage = strcat(nameDir,'\',folderInfo(i).name);
         input = im2double(imread(nameImage));
         figure, imshow(input), title("Original Image " + (i-nonImages));
+        hold on;
+        segmentROI(input);
         pause;
     end
 end

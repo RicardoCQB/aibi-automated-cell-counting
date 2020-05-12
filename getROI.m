@@ -1,13 +1,13 @@
 % Function that returns the ROI of an input image, with the mask of
 % coordinate i
 
-function ROI = getROI(input, i)
+function [ROI, topLine, leftColumn] = getROI(input, i)
     % Name of the directiory of the masks
     nameMaskDir = 'C:\Users\maria\Documents\GitHub\aibi-automated-cell-counting\train-images\train_ROI_images';
     maskFolderInfo = dir(nameMaskDir);
     % Get the mask of the corresponding index
     % Open respective mask and apply it
-    nameMask = strcat(nameMaskDir,'\',getfield(maskFolderInfo(i),'name'));
+    nameMask = strcat(nameMaskDir,'\',maskFolderInfo(i).name);
     mask = im2double(imread(nameMask));
     overlay = input.*mask; 
     % Trace the exterior boundaries of the mask

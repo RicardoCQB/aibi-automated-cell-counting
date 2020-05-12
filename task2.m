@@ -11,19 +11,22 @@ originalFolderInfo = dir(nameOriginalDir);
 numImages = size(originalFolderInfo, 1);
 nonImages = 0;
 % Open and process the images sequentially
-for i=1:numImages
-    if (getfield(originalFolderInfo(i),'bytes')==0)
+for i=1:10
+    if ((originalFolderInfo(i).bytes)==0)
         nonImages = nonImages+1;
     else
         close all;
         % Open original image and get the respective ROI, displaying it
-        nameImage = strcat(nameOriginalDir,'\',getfield(originalFolderInfo(i),'name'));
+        nameImage = strcat(nameOriginalDir,'\',originalFolderInfo(i).name);
         input = im2double(imread(nameImage));
         input = rgb2gray(input);
-        ROI = getROI(input, i);
-        imshow(ROI), title("ROI " + (i-nonImages));
-        [centers, radii] = findCells(ROI);
+        [ROI, topLine, leftColumn] = getROI(input, i);
+        figure, imshow(ROI), hold on;
+        [centers, radii] = segmentCells(ROI);
         viscircles(centers, radii);
+        numCells = size(centers, 1);
+        plotGroundTruth(i, topLine, leftColumn);
+        title("ROI " + (i-nonImages) + " - " + numCells + " cells");
         pause;
     end
 end
