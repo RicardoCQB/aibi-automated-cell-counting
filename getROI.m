@@ -3,7 +3,7 @@
 
 function [ROI, topLine, leftColumn] = getROI(input, i)
     % Name of the directiory of the masks
-    nameMaskDir = 'C:\Users\maria\Documents\GitHub\aibi-automated-cell-counting\train-images\train_ROI_images';
+    nameMaskDir = 'train-images\train_ROI_images';
     maskFolderInfo = dir(nameMaskDir);
     % Get the mask of the corresponding index
     % Open respective mask and apply it

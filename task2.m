@@ -6,7 +6,7 @@
 
 close all; clear all;
 % Name of the directiory of the orignal images
-nameOriginalDir = 'C:\Users\maria\Documents\GitHub\aibi-automated-cell-counting\train-images\train_images';
+nameOriginalDir = 'train-images\train_images';
 originalFolderInfo = dir(nameOriginalDir);
 numImages = size(originalFolderInfo, 1);
 nonImages = 0;
