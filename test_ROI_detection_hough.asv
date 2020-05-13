@@ -24,6 +24,5 @@ imshow(ROI_test_bin);
 figure(2)
 subplot(2,1,1)
 imshow(ROI_close1);
-subplot(2,1,2)
-imshow(ROI_close2);
+subpl
 %ROI = ROI_detection_hough(ROI_test);

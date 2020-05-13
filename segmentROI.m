@@ -2,7 +2,8 @@ function segmentROI(input)
 
         image = rgb2gray(input);
         SE = strel('disk', 5);
-        image = imerode(image, SE);
+        %image = imerode(image, SE);
+        image = medfilt2(image);
         image = imbinarize(image);
         
         % Detetar linhas horizontais
@@ -15,7 +16,7 @@ function segmentROI(input)
         end
       
         % Detetar linhas verticais
-        [Hv, Tv, Rv] = hough(image, 'RhoResolution', 0.01, 'Theta', -10:0);
+        [Hv, Tv, Rv] = hough(image, 'RhoResolution', 0.01, 'Theta', -10:10);
         peaksv = houghpeaks(Hv, 9);
         linesv = houghlines(image, Tv, Rv, peaksv, 'FillGap', 300);
         for k=1:length(linesv)

@@ -14,7 +14,7 @@ folderInfo = dir(nameDir);
 numImages = size(folderInfo, 1);
 nonImages = 0;
 % Open and process the images sequentially
-for i=1:3
+for i=1:2
     if ((folderInfo(i).bytes)==0)
         nonImages = nonImages+1;
     else
