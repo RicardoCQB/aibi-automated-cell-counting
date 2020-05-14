@@ -11,7 +11,8 @@ originalFolderInfo = dir(nameOriginalDir);
 numImages = size(originalFolderInfo, 1);
 nonImages = 0;
 % Open and process the images sequentially
-for i=1:10
+for i=1:5
+    
     if ((originalFolderInfo(i).bytes)==0)
         nonImages = nonImages+1;
     else

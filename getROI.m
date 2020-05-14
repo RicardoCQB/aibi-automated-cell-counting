@@ -10,6 +10,7 @@ function [ROI, topLine, leftColumn] = getROI(input, i)
     nameMask = strcat(nameMaskDir,'\',maskFolderInfo(i).name);
     mask = im2double(imread(nameMask));
     overlay = input.*mask; 
+    ROI = overlay;
     % Trace the exterior boundaries of the mask
     structBoundaries = bwboundaries(mask);
     % Get array of (x,y) coordinates of the boundaries
@@ -25,8 +26,8 @@ function [ROI, topLine, leftColumn] = getROI(input, i)
     % vector, respectivelly
     leftColumn = min(y);
     rightColumn = max(y);
-    width = bottomLine - topLine + 1;
-    height = rightColumn - leftColumn + 1;
+    height = bottomLine - topLine + 1;
+    width = rightColumn - leftColumn + 1;
     % Crop the image in order to obtain the desired ROI
     ROI = imcrop(overlay, [topLine, leftColumn, width, height]);
 end
