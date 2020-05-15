@@ -16,11 +16,11 @@ function ROI = segmentROI(input)
 
     % We use open prevent eroding the width of the big lines, while eroding
     % the thin ones
-    SE10 = strel('disk', 17);
-    ROI_erode = imopen(ROI_close, SE10);
+    SE = strel('disk', 17);
+    ROI_open = imopen(ROI_close, SE);
 
     % Fill the square
-    ROI_fill = imfill(ROI_erode, 'holes');
+    ROI_fill = imfill(ROI_open, 'holes');
 
     % Get the boundaries of the image
     ROI_boundariesStruct = bwboundaries(ROI_fill);

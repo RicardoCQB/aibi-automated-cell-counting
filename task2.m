@@ -5,24 +5,28 @@
 % negatives, recall, precision and F1-measure.
 
 close all; clear all;
+
 % Name of the directiory of the orignal images
 nameOriginalDir = 'train-images\train_images';
 originalFolderInfo = dir(nameOriginalDir);
 numImages = size(originalFolderInfo, 1);
 nonImages = 0;
+
 % Open and process the images sequentially
 for i=1:5
-    
     if ((originalFolderInfo(i).bytes)==0)
         nonImages = nonImages+1;
     else
         close all;
-        % Open original image and get the respective ROI, displaying it
+        
+        % Open original image and get the respective ROI
         nameImage = strcat(nameOriginalDir,'\',originalFolderInfo(i).name);
         input = im2double(imread(nameImage));
         input = rgb2gray(input);
         [ROI, topLine, leftColumn] = getROI(input, i);
         figure, imshow(ROI), hold on;
+        
+        % Segment the cells in the ROI
         [centers, radii] = segmentCells(ROI);
         viscircles(centers, radii);
         numCells = size(centers, 1);

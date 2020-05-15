@@ -1,4 +1,4 @@
-% This script tests the ROI_detection_hough function that detects lines in
+% This script tests the function for task 1 that detects lines in
 % the microscopy image.
 
 % Image Pre-processment that 
@@ -11,7 +11,6 @@ ROI_test_med = medfilt2(ROI_test_gray);
 ROI_test_bin = imbinarize(ROI_test_med);
 figure, imshow(ROI_test_bin)
 %%
-
 % This block of code uses the function imclose to join the most adjacent
 % lines together, vertically and horizontally.
 SE_verticalLines = strel('line',50,90);
@@ -28,7 +27,6 @@ figure, imshow(ROI_erode)
 ROI_fill = imfill(ROI_erode, 'holes');
 figure, imshow(ROI_fill)
 %%
-
 ROI_boundariesStruct = bwboundaries(ROI_fill);
 ROI_boundaries = ROI_boundariesStruct{1}; 
 % Get rows and columns of the array separately
