@@ -24,7 +24,7 @@ header = 'Original Image   |   Jaccard Index   |   Maximum Euclidean Distance   
 fprintf(fid, '%s\n', header);
 
 % Open and process the images sequentially
-for i=1:numImages
+for i=19:19
     if ((folderInfo(i).bytes)==0)
         nonImages = nonImages+1;
     else

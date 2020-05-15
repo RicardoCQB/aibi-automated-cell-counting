@@ -3,7 +3,6 @@
 % with the ground truth
 
 function [jaccardIndex, euclideanMax, euclideanMean] = evaluateROI(ROI, i)
-
     % Name of the directiory of the masks
     nameGroundTruthDir = 'train-images\train_ROI_images';
     groundTruthFolderInfo = dir(nameGroundTruthDir);

@@ -22,12 +22,13 @@ figure, imshow(sub)
 % Obter gradiente
 [Gmag, Gdir] = imgradient(sub, 'sobel');
 figure, imshow(Gmag)
-%% 
-fill = imfill(Gmag, 'holes');
-figure, imshow(fill)
+
 %%
-bw = imbinarize(fill);
+bw = imbinarize(Gmag);
 figure, imshow(bw)
+
 %%
-[centers, radii] = imfindcircles (bw, [11 50]); 
-viscircles(centers, radii);
+close all;
+figure, imshow(ROI)
+[centersD, radiiD] = imfindcircles (bw, [11 60], 'ObjectPolarity', 'dark'); 
+viscircles(centersD, radiiD);
