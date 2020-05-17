@@ -1,25 +1,28 @@
 % Function that returns the segmented ROI of an input image
 
 function ROI = segmentROI(input)
+    % input - RGB image
+    % ROI - returns the Region Of Interest (ROI) mask.
+    
     % Image pre-processment that turns to gray scale, smoothes and binarizes
-    % the image it recieves as input
+    % the image it recieves as input.
     ROI_gray = rgb2gray(input);
     ROI_med = medfilt2(ROI_gray);
     ROI_bin = imbinarize(ROI_med);
     
     % This block of code uses the function imclose to join the most adjacent
-    % lines together, vertically and horizontally.
+    % lines together, vertical and horizontal lines are treated separately.
     SE_vertical = strel('line',50,90);
     SE_horizontal = strel('line',50,0);
     ROI_close = imclose(ROI_bin, SE_vertical);
     ROI_close = imclose(ROI_close, SE_horizontal);
 
-    % We use open prevent eroding the width of the big lines, while eroding
-    % the thin ones
+    % We use the open operation to prevent eroding the width of the big lines, while eroding
+    % the thinner ones.
     SE = strel('disk', 17);
     ROI_open = imopen(ROI_close, SE);
 
-    % Fill the square
+    % Fills the big square.
     ROI_fill = imfill(ROI_open, 'holes');
 
     % Get the boundaries of the image

@@ -31,4 +31,4 @@ figure, imshow(bw)
 close all;
 figure, imshow(ROI)
 [centersD, radiiD] = imfindcircles (bw, [11 60], 'ObjectPolarity', 'dark'); 
-viscircles(centersD, radiiD);
+viscircles(centersD, radiiD, 'Color', 'b');
