@@ -1,7 +1,7 @@
 close all; clear all;
 % Obter ROI
 input = im2double(imread('train-images\train_images\20151115_172901.tiff'));
-[ROI, topLine, leftColumn] = getROI(input, 3);
+ROI = getROI(input, 3);
 figure, imshow(ROI)
 %%
 % Passar para cinza e suavização
@@ -29,6 +29,7 @@ figure, imshow(bw)
 
 %%
 close all;
-figure, imshow(ROI)
+figure, imshowpair(ROI,bw,'montage')
+
 [centersD, radiiD] = imfindcircles (bw, [11 60], 'ObjectPolarity', 'dark'); 
 viscircles(centersD, radiiD, 'Color', 'b');
