@@ -1,4 +1,12 @@
-% Test task2 - Ricardo 2
+% Test task2 - Ricardo - RedChannel + preprocessment + multithresholding + topHat
+% Test task2 - Ricardo
+% Cenas a tentar:
+% redChannel + multithresh + tophat
+% gray + multithresh + topHat
+% remover moldura com multithresh + top hat
+% remover moldura da maneira da task1 + top hat
+%
+
 
 input = im2double(imread('train-images\train_images\20151115_172901.tiff'));
 
