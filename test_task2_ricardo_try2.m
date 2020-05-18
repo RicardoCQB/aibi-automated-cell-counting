@@ -10,21 +10,19 @@ ROI = getROI(input, 3);
 ROI_gray = rgb2gray(ROI);
 ROI_med = medfilt2(ROI_gray);
 
-se1 = strel('line', 30, 90);
-se2 = strel('line', 30, 0);
 
-ROI_open = imopen(ROI_med, se1);
-ROI_open = imopen(ROI_open, se2);
-
-figure, imshow(ROI_open);
-
-thresholds = multithresh(ROI_open, 4);
-ROI_bin = imbinarize(ROI_open, thresholds(4));
-figure, imshow(ROI_bin);
-
-
+thresholds = multithresh(ROI_med, 4);
+ROI_bin = imbinarize(ROI_gray, thresholds(2));
+figure, imshow(ROI_bin)
 
 % This part focuses on removing the grid
+se1 = strel('line', 5, 90);
+se2 = strel('line', 5, 0);
+
+ROI_open = imerode(ROI_bin, se1);
+ROI_open = imerode(ROI_open, se2);
+
+figure, imshow(ROI_open);
 
 end
 
