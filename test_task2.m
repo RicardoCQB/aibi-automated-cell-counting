@@ -1,7 +1,7 @@
 close all; clear all;
 % Obter ROI
-input = im2double(imread('train-images\train_images\20151115_172901.tiff'));
-ROI = getROI(input, 3);
+input = im2double(imread('train-images\train_images\20151118_121152.tiff'));
+ROI = getROI(input, 13);
 figure, imshow(ROI)
 %%
 % Passar para cinza e suavização
@@ -9,24 +9,25 @@ gray = rgb2gray(ROI);
 med = medfilt2(gray);
 figure, imshow(med)
 %%
-% suavizar linhas ligeiramente
-SE = strel('disk', 10);
-open = imclose(med, SE);
-figure, imshow(open)
-figure, imhist(open)
-%% 
-sub = imsubtract(open, med);
-sub = imadjust(sub);
-figure, imshow(sub)
+ths = multithresh(med, 3);
+b = imquantize(med, ths);
+RGB = label2rgb(b); 
+figure, imshow(RGB)
+%%
+lines = imbinarize(med, ths(3));
+figure, imshow(lines)
 %%
 % Obter gradiente
-[Gmag, Gdir] = imgradient(sub, 'sobel');
+[Gmag, Gdir] = imgradient(med, 'sobel');
 figure, imshow(Gmag)
 
 %%
 bw = imbinarize(Gmag);
 figure, imshow(bw)
 
+%%
+sub = imsubtract(bw, lines);
+figure, imshow(sub)
 %%
 close all;
 figure, imshowpair(ROI,bw,'montage')

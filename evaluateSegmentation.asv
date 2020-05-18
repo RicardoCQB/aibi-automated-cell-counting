@@ -15,7 +15,7 @@ function [autoNumCells, manualNumCells, TP, FP, FN, R, P, F1] = evaluateSegmenta
         positiveCell = positive_locations(i);
         for j=1:autoNumCells
             cell = results_locations(j);
-            % CONDIÇÕES E TAL
+            if ()
         end
     end
     
