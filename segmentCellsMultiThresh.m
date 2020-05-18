@@ -22,5 +22,6 @@ SE1 = strel('disk', 3);
 figure, imshow(gray_cells);
 
 [centers, radii] = imfindcircles (gray_cells, [14 100],'ObjectPolarity','dark', 'Sensitivity', 0.85, 'EdgeThreshold', 0.5);
+viscircles(centers, radii);
 
 end

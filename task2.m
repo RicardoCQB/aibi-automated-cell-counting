@@ -17,7 +17,7 @@ nonImages = 0;
 resultsDir = 'train-images\results_task2';
 
 % Open and process the images sequentially
-for i=5:9
+for i=10:numImages
     if ((originalFolderInfo(i).bytes)==0)
         nonImages = nonImages+1;
     else
@@ -35,6 +35,7 @@ for i=5:9
         
         % Save the information concerning the rectangle surrounding a cell
         % to .mat file
+        results_locations = zeros(size(centers, 1), 4);
         for n=1:size(centers, 1)
             results_locations(n, 1) = centers(n, 1) - radii(n);
             results_locations(n, 2) = centers(n, 2) - radii(n);
