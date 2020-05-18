@@ -2,12 +2,7 @@
 % grayscale and removing the grid of the image.
 function [centers, radii] = segmentCellsMultiThresh(input)
 
-input = im2double(imread('train-images\train_images\20151115_172901.tiff'));
-
-ROI = getROI(input, 3);
-
-gray = rgb2gray(ROI);
-gray = medfilt2(gray);
+gray = medfilt2(input);
 
 % Upon testing three levels of thresholding was found to be appropriate
 thresh = multithresh(gray,3);
@@ -27,6 +22,5 @@ SE1 = strel('disk', 3);
 figure, imshow(gray_cells);
 
 [centers, radii] = imfindcircles (gray_cells, [14 100],'ObjectPolarity','dark', 'Sensitivity', 0.85, 'EdgeThreshold', 0.5);
-viscircles(centers, radii, 'Color', 'b');
 
 end
