@@ -1,18 +1,22 @@
 function [bottom, right] = excludeBorders(image)
+    figure, imshow(image)
+
     SE_vertical = strel('line',50,90);
     SE_horizontal = strel('line',50,0);
     ROI_close = imclose(image, SE_vertical);
     ROI_close = imclose(ROI_close, SE_horizontal);
+    figure, imshow(ROI_close)
     
     SE = strel('disk', 17);
     ROI_open = imopen(ROI_close, SE);
+    figure, imshow(ROI_open)
     
-    Th = multithresh(ROI_open, 3);
-    ROI_bin = imbinarize(ROI_open, Th(3));
+    Th = multithresh(ROI_open, 2);
+    ROI_bin = imbinarize(ROI_open, Th(2));
     
-    [H,T,R] = hough(ROI_bin, 'Theta', [-90, 0]);
+    [H,T,R] = hough(ROI_bin, 'RhoResolution', 0.5, 'Theta', [-90, 0]);
     numLines = 8;
-    peaks = houghpeaks(H,numLines, 'Threshold', 30);
+    peaks = houghpeaks(H,numLines);
     x = T(peaks(:,2));
     y = R(peaks(:,1));
     lines = houghlines(ROI_bin,T,R,peaks);
