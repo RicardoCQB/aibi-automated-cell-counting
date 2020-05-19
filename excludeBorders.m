@@ -27,6 +27,11 @@ function [bottom, right] = excludeBorders(image)
     y = R(peaks(:,1));
     lines = houghlines(Gmag,T,R,peaks, 'FillGap', 300);
     
+    for k=1:length(lines)
+    xy=[lines(k).point1;lines(k).point2];
+    plot(xy(:,1),xy(:,2),'Color','green');
+    end
+    
     % Get the bottom and right lines that form the exterior boundaries of
     % the ROI
     rightEnd = 0;
@@ -59,4 +64,6 @@ function [bottom, right] = excludeBorders(image)
             end   
         end
     end
+    disp(bottom)
+    disp(right)
 end
