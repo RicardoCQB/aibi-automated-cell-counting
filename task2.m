@@ -14,7 +14,7 @@ nonImages = 0;
 
 % Set directory in which the results will be saved and the text file for
 % the results
-resultsDir = 'train-images\results_task2';
+resultsDir = 'train-images\results_train_task2';
 
 % Open and process the images sequentially
 for i=1:numImages
@@ -37,26 +37,26 @@ for i=1:numImages
         
         % Save the information concerning the rectangle surrounding a cell
         % to .mat file
-        %results_locations = zeros(size(centers, 1), 4);
-        %for n=1:size(centers, 1)
-        %    results_locations(n, 1) = centers(n, 1) - radii(n);
-        %    results_locations(n, 2) = centers(n, 2) - radii(n);
-        %    results_locations(n, 3) = radii(n)*2;
-        %    results_locations(n, 4) = radii(n)*2;
-        %end
-        %fullFileName = strcat(resultsDir,'\',originalFolderInfo(i).name,'_result_locations.mat');
-        %fullFileName = erase(fullFileName,'.tiff');
-        %save(fullFileName, 'results_locations');
+        results_locations = zeros(size(centers, 1), 4);
+        for n=1:size(centers, 1)
+            results_locations(n, 1) = centers(n, 1) - radii(n);
+            results_locations(n, 2) = centers(n, 2) - radii(n);
+            results_locations(n, 3) = radii(n)*2;
+            results_locations(n, 4) = radii(n)*2;
+        end
+        fullFileName = strcat(resultsDir,'\',originalFolderInfo(i).name,'_result_locations.mat');
+        fullFileName = erase(fullFileName,'.tiff');
+        save(fullFileName, 'results_locations');
         
         % Plot both the obtained results and the ground truth
-        %positive_locations = plotGroundTruth(i);
-        %for m=1:size(results_locations, 1)
-        %    rectangle('Position', [results_locations(m,1) results_locations(m,2) results_locations(m,3) results_locations(m,4)], 'EdgeColor', 'b', 'LineWidth', 1)
-        %end
-        %title("ROI " + (i-nonImages));
-        %
+        positive_locations = plotGroundTruth(i);
+        for m=1:size(results_locations, 1)
+            rectangle('Position', [results_locations(m,1) results_locations(m,2) results_locations(m,3) results_locations(m,4)], 'EdgeColor', 'b', 'LineWidth', 1)
+        end
+        title("ROI " + (i-nonImages));
+        
         % Evaluate the obtained segmenation
-        % [numCells, TP, FP, FN, R, P, F1] = evaluateSegmentation(results_locations, positive_locations);
+        % [autoNumCells, manualNumCells, TP, FP, FN, R, P, F1] = evaluateSegmentation(results_locations, positive_locations);
         
         pause;
     end

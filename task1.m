@@ -4,7 +4,7 @@
 % The delineations made will be compared with a manual delineation (ground
 % truth) and evaluated using the Jaccard Index and the maximum and mean
 % values of the Euclidean distance between the vertices of the detected and
-% GT ROIs. 
+% GT ROIs.
 
 close all; clear all;
 
@@ -17,7 +17,7 @@ nonImages = 0;
 
 % Set directory in which the results will be saved and the text file for
 % the results
-resultsDir = 'train-images\results_task1';
+resultsDir = 'train-images\results_train_task1';
 textFile = strcat(resultsDir, '\overall_results');
 fid = fopen(textFile, 'wt');
 header = 'Original Image   |   Jaccard Index   |   Maximum Euclidean Distance   |   Mean Euclidean Distance';
