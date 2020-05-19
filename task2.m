@@ -33,7 +33,7 @@ for i=1:numImages
         [bottom, right] = excludeBorders(ROI);
         
         % Segment the cells in the ROI
-        %[centers, radii] = segmentCells(ROI);
+        [centers, radii] = segmentCells(ROI);
         
         % Save the information concerning the rectangle surrounding a cell
         % to .mat file

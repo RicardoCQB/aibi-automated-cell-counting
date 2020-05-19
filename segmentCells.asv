@@ -14,7 +14,7 @@ function [centers, radii] = segmentCells(image)
     
     % Identify circles
     [centersAux, radiiAux] = imfindcircles (bw, [14 50], 'ObjectPolarity', 'dark'); 
-    viscircles(centersAux, radiiAux, 'Color', 'y'), hold on;
+    viscir
     
     % Get the bottom and right lines from which the cells beyond them will
     % not be counted
@@ -23,11 +23,10 @@ function [centers, radii] = segmentCells(image)
     % Eliminate the cells beyond these lines
     n = 1;
     for i=1:size(centersAux,1)
-        if (centersAux(i,2)<=bottom && centersAux(i,1)<=right)
-            centers(n,2) = centersAux(i,2); centers(n,1) = centersAux(i,1);
+        if (centersAux(i,1)<=bottom && centersAux(i,2)<=right)
+            centers(n,1) = centersAux(i,1); centers(n,2) = centersAux(i,2);
             radii(n) = radiiAux(i);
             n = n+1;
         end
     end
-    viscircles(centers, radii, 'Color', 'b')
 end

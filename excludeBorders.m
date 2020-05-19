@@ -2,6 +2,10 @@
 % them will not be counted
 
 function [bottom, right] = excludeBorders(image)
+    % Smooth the image and increase contrast
+    image = medfilt2(image);
+    image = adapthisteq(image);
+
     % Join the adjacent lines that delineate the ROI
     SE_vertical = strel('line',50,90);
     SE_horizontal = strel('line',50,0);
@@ -9,7 +13,7 @@ function [bottom, right] = excludeBorders(image)
     ROI_close = imclose(ROI_close, SE_horizontal);
     
     % Eliminate the other lines that form the grid
-    SE = strel('disk', 15);
+    SE = strel('disk', 17);
     ROI_open = imopen(ROI_close, SE);
     
     % Binarize only the adjacent lines
@@ -20,17 +24,12 @@ function [bottom, right] = excludeBorders(image)
     [Gmag Gdir] = imgradient(ROI_bin);
 
     % Find the lines that correspond to the edges
-    [H,T,R] = hough(Gmag, 'RhoResolution', 0.5, 'Theta', [-90, 0]);
-    numLines = 8;
-    peaks = houghpeaks(H,numLines);
+    [H,T,R] = hough(Gmag, 'RhoResolution', 0.1, 'Theta', [-90, 0, 89]);
+    numLines = 30;
+    peaks = houghpeaks(H,numLines, 'Threshold', 0.4*max(H(:)));
     x = T(peaks(:,2));
     y = R(peaks(:,1));
-    lines = houghlines(Gmag,T,R,peaks, 'FillGap', 300);
-    
-    for k=1:length(lines)
-    xy=[lines(k).point1;lines(k).point2];
-    plot(xy(:,1),xy(:,2),'Color','green');
-    end
+    lines = houghlines(Gmag,T,R,peaks, 'FillGap', 1000);
     
     % Get the bottom and right lines that form the exterior boundaries of
     % the ROI
@@ -58,12 +57,10 @@ function [bottom, right] = excludeBorders(image)
             if(lines(k).rho>right && lines(k).rho~=rightEnd)
                 right = lines(k).rho; 
             end
-        elseif (lines(k).theta==-90)
+        elseif (lines(k).theta==-90 || lines(k).theta==89)
             if(lines(k).rho>bottom && lines(k).rho~=bottomEnd)
                 bottom = lines(k).rho; 
             end   
         end
     end
-    disp(bottom)
-    disp(right)
 end

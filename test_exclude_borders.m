@@ -30,7 +30,7 @@ numLines = 8;
 peaks = houghpeaks(H,numLines);
 x = T(peaks(:,2));
 y = R(peaks(:,1));
-lines = houghlines(Gmag,T,R,peaks, 'FillGap', 300);
+lines = houghlines(Gmag,T,R,peaks, 'FillGap', 1000);
 
 %%
 for k=1:length(lines)
