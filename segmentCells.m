@@ -11,6 +11,7 @@ function [centers, radii] = segmentCells(image)
     % Get the borders and turn the image into black and white
     [Gmag, Gdir] = imgradient(adapt, 'sobel');
     bw = imbinarize(Gmag);
+    figure, imshow(bw)
     
     % Identify circles
     [centersAux, radiiAux] = imfindcircles (bw, [14 50], 'ObjectPolarity', 'dark'); 
