@@ -31,7 +31,7 @@ for i=1:numImages
         figure, imshow(ROI), hold on;
         
         % Segment the cells in the ROI
-        [centers, radii] = segmentCellsMultiThresh(ROI);
+        [centers, radii] = segmentCells(ROI);
         
         % Save the information concerning the rectangle surrounding a cell
         % to .mat file

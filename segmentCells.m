@@ -2,21 +2,27 @@
 % recieves as input
 
 function [centers, radii] = segmentCells(image)
-    gray = medfilt2(image);
-    figure, imshow(gray)
+    % Reduce noise 
+    med = medfilt2(image, [5 5]);
+    figure, imshow(med)
+
+    % Enhance contrast
+    adapt = adapthisteq(med);
+    figure, imshow(adapt)
     
-    thresh = multithresh(gray,3);
-    gray_lines = imbinarize(gray, thresh(3));
-    
-    [Gmag, Gdir] = imgradient(image, 'sobel');
+    % Get the borders and turn the image into black and white
+    [Gmag, Gdir] = imgradient(gray, 'sobel');
     figure, imshow(Gmag)
     bw = imbinarize(Gmag);
     figure, imshow(bw)
     
-    bw = imsubtract(bw, gray_lines);
-    figure, imshow(bw)
-    bw = bwmorph(bw, 'close');
-    figure, imshow(bw)
-    
+    % Identify circles
     [centers, radii] = imfindcircles (bw, [14 50], 'ObjectPolarity', 'dark'); 
+    
+    % Get the bottom and right lines from which the cells beyond them will
+    % not be counted
+    [bottom, right] = excludeBorders(image);
+    
+    % Eliminate the cells beyond these lines
+    % POR FAZER
 end
