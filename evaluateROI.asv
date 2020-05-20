@@ -30,8 +30,7 @@ function [jaccardIndex, euclideanMax, euclideanMean] = evaluateROI(ROI, i)
     leftColumnGT = min(y); rightColumnGT = max(y);
     verticesGT = [topLineGT leftColumnGT; topLineGT rightColumnGT; bottomLineGT leftColumnGT; bottomLineGT rightColumnGT];
     
-    % Calculate the Euclidean distances and its maximum and average values.
-    euclidean = zeros(1,4);
+    % Calculate the Euclidean distances.
     for i=1:4
         euclidean(i)  = sqrt((verticesROI(i,1) - verticesGT(i,1))^ 2 + (verticesROI(i,2) - verticesGT(i,2))^ 2);
     end
