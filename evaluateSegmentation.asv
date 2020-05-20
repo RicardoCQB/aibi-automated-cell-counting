@@ -13,7 +13,9 @@ function [autoNumCells, manualNumCells, TP, FP, FN, R, P, F1] = evaluateSegmenta
     manualNumCells = size(positive_locations, 1);
     
     % Calculate the Jaccard index matrix for each combination of cells.
-    jaccardIndex = zeros(autoNumCells, manualNumCells);       
+    jaccardIndex = zeros(autoNumCells, manualNumCells);    
+    
+    for auto = 1
     
     TP = 0; FP = 0; FN = 0;
     % Runs the cells from the ground truth
