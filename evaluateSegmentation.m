@@ -13,7 +13,7 @@ function [autoNumCells, manualNumCells, TP, FP, FN, R, P, F1] = evaluateSegmenta
     manualNumCells = size(positive_locations, 1);
     
     % Calculate the Jaccard index matrix for each combination of cells.
-    jaccardIndex = zeros(autoNumCells, manualNumCells);       
+    jaccardFullMatrix = zeros(autoNumCells, manualNumCells);       
     
     TP = 0; FP = 0; FN = 0;
     % Runs the cells from the ground truth
@@ -21,9 +21,20 @@ function [autoNumCells, manualNumCells, TP, FP, FN, R, P, F1] = evaluateSegmenta
         autoCellMask = createCellMask(results_locations(i,1), results_locations(i,2),results_locations(i,3),results_locations(i,4));        
         for j = 1:manualNumCells
             manualCellMask = createCellMask(positive_locations(i,1), positive_locations(i,2),positive_locations(i,3),positive_locations(i,4));
-            jaccardIndex(i,j) = jaccard(autoCellMask, manualCellMask);
+            jaccardFullMatrix(i,j) = jaccard(autoCellMask, manualCellMask);
         end
     end
+    
+    % Jaccard Matrix with only the maximum jaccard indexes for each cell.
+    jaccardMaxMatrixAuto = zeros(autoNumCells);
+    jaccardMaxMatrixAuto(:) = max(jaccardFullMatrix(:));
+    
+    jaccardFullMatrixTranspose = transpose(jaccardFullMatrix);
+    jaccardMaxMatrixManual(:) = max(jaccardFullMatrixTranspose(:);
+    
+    TP = size(find(jaccardMaxMatrixAuto >= 0.5));
+    FP = size(find(jaccardMaxMatrixAuto));
+    FN = size(find(0 < jaccardMaxMatrix && jaccardMaxMatrix < 0.5)) + size(find(jaccardMaxMatrixManual));    
     
     % Calculus of the recall - the same as sensitivity
     R = TP/(TP+FN);
