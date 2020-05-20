@@ -1,22 +1,20 @@
 % Function that compares the automatic segmentation with the ground truth,
 % manual segmentation, returning the number of cells found in both of them,
 % the number of true positives, false positives and false negatives and the
-% values of recall, precision and F-measure
+% values of recall, precision and F-measure.
+% results_locations - coordinates of the rectangles calculated by
+% segmentation.
+% positive_locations - coordinates of the rectangles from the ground
+% truth.
 
 function [autoNumCells, manualNumCells, TP, FP, FN, R, P, F1] = evaluateSegmentation(results_locations, positive_locations)
     % Number of cells in the automatic and manual segmentation is equal to
-    % the size of the corresponding array
-    % results_locations - coordinates of the rectangles calculated by segmentation
-    % positive_locations - coordinates of the rectangles from the ground truth
-    
+    % the size of the corresponding array.
     autoNumCells = size(results_locations, 1);
     manualNumCells = size(positive_locations, 1);
     
     % Calculate the Jaccard index matrix for each combination of cells.
     jaccardFullMatrix = zeros(autoNumCells, manualNumCells);       
-    
-    TP = 0; FP = 0; FN = 0;
-    % Runs the cells from the ground truth
     for i = 1:autoNumCells        
         autoCellMask = createCellMask(results_locations(i,2), results_locations(i,1),results_locations(i,3),results_locations(i,4));        
         for j = 1:manualNumCells
@@ -36,24 +34,22 @@ function [autoNumCells, manualNumCells, TP, FP, FN, R, P, F1] = evaluateSegmenta
         jaccardMaxMatrixManual(i) = max(jaccardFullMatrix(:,i));
     end
     
+    % Get the amount of true positives, false positives and false
+    % negatives.
     TP = size(find(jaccardMaxMatrixAuto >= 0.5),1);
     FP = size(find(~jaccardMaxMatrixAuto),1);
     FN = size(find(jaccardMaxMatrixAuto < 0.5),1) + size(find(~jaccardMaxMatrixManual),1) - FP;    
     
-    % Calculus of the recall - the same as sensitivity
-    R = TP/(TP+FN);
+    % Calculus of the recall - the same as sensitivity.
+    R = round(TP/(TP+FN),4);
     
     % Calculus of the precision - percentage of object pixels that were
     % correctly segmented using as reference the total number of segmented
-    % pixels
-    P = TP/(TP+FP);
+    % pixels.
+    P = round(TP/(TP+FP),4);
     
     % Calculus of the F-measure -  combines the values of R and P, giving
-    % it equal contributions (beta = 1)
+    % it equal contributions (beta = 1).
     beta = 1;
-    F1 = (((beta^2)+1)*P*R)/(((beta^2)*P)+R);
-    
-    R = round(R, 4);
-    P = round(P, 4);
-    F1 = round(F1, 4);
+    F1 = round((((beta^2)+1)*P*R)/(((beta^2)*P)+R),4);
 end

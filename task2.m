@@ -4,47 +4,45 @@
 % using the number of counted cells, true positives, false positives, false
 % negatives, recall, precision and F1-measure.
 
-close all; clear all;
-
-% Name of the directiory of the orignal images
+% Name of the directiory of the orignal images.
 nameOriginalDir = 'train-images\train_images';
 originalFolderInfo = dir(nameOriginalDir);
 numImages = size(originalFolderInfo, 1);
-nonImages = 0;
+nonImages = 0; % PARA ELIMINAR
 
 % Set directory in which the results will be saved and the text file for
-% the results
-resultsDir = 'train-images\results_train_task2';
+% the results.
+resultsDir = 'results\results_train_task2';
 
-% Open and process the images sequentially
+% Open and process the images sequentially.
 for i=1:50
-    if ((originalFolderInfo(i).bytes)==0)
+    if ((originalFolderInfo(i).bytes)==0) % POR COMO TASK 1
         nonImages = nonImages+1;
     else
-        close all;
-        
-        % Open original image and get the respective ROI
+        % Open original image and turn it to grayscale.
         nameImage = strcat(nameOriginalDir,'\',originalFolderInfo(i).name);
         input = im2double(imread(nameImage));
         input = rgb2gray(input);
+        
+        % Get the respective ROI.
         ROI = getROI(input, i);
-        figure, subplot(1,2,1)
-        imshow(ROI), title("ROI " + (i-nonImages)), hold on;
+        figure, subplot(1,2,1) % PARA ELIMINAR
+        imshow(ROI), title("ROI " + (i-nonImages)), hold on; % PARA ELIMINAR
         
         % Segment the cells and plot both the obtained results and the 
-        % ground truth
-        positive_locations = plotGroundTruth(i);
-        results_locations = segmentAndPlotCells(ROI);        
+        % ground truth.
+        positive_locations = getGroundTruth(i);
+        results_locations = segmentCells(ROI);        
         
         % Save the information concerning the rectangle surrounding a cell
-        % to .mat file
+        % to .mat file.
         fullFileName = strcat(resultsDir,'\',originalFolderInfo(i).name,'_result_locations.mat');
         fullFileName = erase(fullFileName,'.tiff');
         save(fullFileName, 'results_locations');
        
-        % Evaluate the obtained segmenation
+        % Evaluate the obtained segmenation.
         [autoNumCells, manualNumCells, TP, FP, FN, R, P, F1] = evaluateSegmentation(results_locations, positive_locations);
-        subplot(1,2,2)
+        subplot(1,2,2) % ELIMINAR
         text(0, 0.68, "Automatic Counting: " + autoNumCells + " cells"); hold on;
         text(0, 0.63, "Manual Counting: " + manualNumCells + " cells"); hold on;
         text(0, 0.58, "True Positives: " + TP); hold on;
@@ -55,6 +53,9 @@ for i=1:50
         text(0, 0.33, "F-measure: " + F1); hold on;
         axis off;
         
-        pause;
+        pause; % ELIMINAR
     end
 end
+
+% Close the text file.
+fclose(fid);

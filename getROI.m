@@ -1,13 +1,13 @@
 % Function that returns the ROI of an input image, with the mask of
-% coordinate i
+% coordinate i.
 
 function ROI = getROI(input, i)
-    % Name of the directiory of the masks
+    % Name of the directiory of the masks.
     nameMaskDir = 'train-images\train_ROI_images';
     maskFolderInfo = dir(nameMaskDir);
     
-    % Get the mask of the corresponding index
-    % Open respective mask and apply it
+    % Get the mask of the corresponding index, open it and apply to the
+    % image it recieves as input.
     nameMask = strcat(nameMaskDir,'\',maskFolderInfo(i).name);
     mask = im2double(imread(nameMask));
     ROI = input.*mask; 
