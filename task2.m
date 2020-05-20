@@ -33,8 +33,8 @@ for i=1:50
         
         % Segment the cells and plot both the obtained results and the 
         % ground truth
-        results_locations = segmentAndPlotCells(ROI);
         positive_locations = plotGroundTruth(i);
+        results_locations = segmentAndPlotCells(ROI);        
         
         % Save the information concerning the rectangle surrounding a cell
         % to .mat file
