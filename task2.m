@@ -28,7 +28,8 @@ for i=1:3
         input = im2double(imread(nameImage));
         input = rgb2gray(input);
         ROI = getROI(input, i);
-        figure, imshow(ROI), title("ROI " + (i-nonImages)), hold on;
+        figure, subplot(1,2,1)
+        imshow(ROI), title("ROI " + (i-nonImages)), hold on;
         
         % Segment the cells and plot both the obtained results and the 
         % ground truth
@@ -42,7 +43,17 @@ for i=1:3
         save(fullFileName, 'results_locations');
        
         % Evaluate the obtained segmenation
-        % [autoNumCells, manualNumCells, TP, FP, FN, R, P, F1] = evaluateSegmentation(results_locations, positive_locations);
+        [autoNumCells, manualNumCells, TP, FP, FN, R, P, F1] = evaluateSegmentation(results_locations, positive_locations);
+        subplot(1,2,2)
+        text(0.3, 1, "Automatic Counting: " + autoNumCells + " cells"); hold on;
+        text(0.3, 0.9, "Manual Counting: " + manualNumCells + " cells"); hold on;
+        text(0.3, 0.8, "True Positives: " + TP); hold on;
+        text(0.3, 0.7, "False Positives: " + FP); hold on;
+        text(0.3, 0.6, "False Negatives: " + FN); hold on;
+        text(0.3, 0.5, "Recall: " + R); hold on;
+        text(0.3, 0.4, "Precision: " + P); hold on;
+        text(0.3, 0.3, "F-measure: " + F1); hold on;
+        axis off;
         
         pause;
     end
