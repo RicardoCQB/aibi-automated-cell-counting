@@ -45,14 +45,14 @@ for i=1:50
         % Evaluate the obtained segmenation
         [autoNumCells, manualNumCells, TP, FP, FN, R, P, F1] = evaluateSegmentation(results_locations, positive_locations);
         subplot(1,2,2)
-        text(0.3, 1, "Automatic Counting: " + autoNumCells + " cells"); hold on;
-        text(0.3, 0.9, "Manual Counting: " + manualNumCells + " cells"); hold on;
-        text(0.3, 0.8, "True Positives: " + TP); hold on;
-        text(0.3, 0.7, "False Positives: " + FP); hold on;
-        text(0.3, 0.6, "False Negatives: " + FN); hold on;
-        text(0.3, 0.5, "Recall: " + R); hold on;
-        text(0.3, 0.4, "Precision: " + P); hold on;
-        text(0.3, 0.3, "F-measure: " + F1); hold on;
+        text(0, 0.68, "Automatic Counting: " + autoNumCells + " cells"); hold on;
+        text(0, 0.63, "Manual Counting: " + manualNumCells + " cells"); hold on;
+        text(0, 0.58, "True Positives: " + TP); hold on;
+        text(0, 0.53, "False Positives: " + FP); hold on;
+        text(0, 0.48, "False Negatives: " + FN); hold on;
+        text(0, 0.43, "Recall: " + R); hold on;
+        text(0, 0.38, "Precision: " + P); hold on;
+        text(0, 0.33, "F-measure: " + F1); hold on;
         axis off;
         
         pause;

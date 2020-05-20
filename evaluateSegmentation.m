@@ -52,4 +52,8 @@ function [autoNumCells, manualNumCells, TP, FP, FN, R, P, F1] = evaluateSegmenta
     % it equal contributions (beta = 1)
     beta = 1;
     F1 = (((beta^2)+1)*P*R)/(((beta^2)*P)+R);
+    
+    R = round(R, 4);
+    P = round(P, 4);
+    F1 = round(F1, 4);
 end

@@ -28,8 +28,9 @@ function results_locations = segmentAndPlotCells(image)
             n = n+1;
         end
     end
-    
-    radii(:) = radii(:) + 6;
+    centers(:) = round(centers(:));
+    radii(:) = ceil(radii(:));
+    %radii(:) = radii(:) + 6;
     
     % Obtain the surrounding rectangle
     results_locations = zeros(size(centers, 1), 4);
