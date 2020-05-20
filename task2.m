@@ -17,7 +17,7 @@ nonImages = 0;
 resultsDir = 'train-images\results_train_task2';
 
 % Open and process the images sequentially
-for i=1:3
+for i=5:5
     if ((originalFolderInfo(i).bytes)==0)
         nonImages = nonImages+1;
     else

@@ -19,22 +19,28 @@ function [autoNumCells, manualNumCells, TP, FP, FN, R, P, F1] = evaluateSegmenta
     % Runs the cells from the ground truth
     for i = 1:autoNumCells        
         autoCellMask = createCellMask(results_locations(i,1), results_locations(i,2),results_locations(i,3),results_locations(i,4));        
+        size(autoCellMask)
         for j = 1:manualNumCells
             manualCellMask = createCellMask(positive_locations(j,1), positive_locations(j,2),positive_locations(j,3),positive_locations(j,4));
+            size(manualCellMask)
             jaccardFullMatrix(i,j) = jaccard(autoCellMask, manualCellMask);
         end
     end
     
     % Jaccard Matrix with only the maximum jaccard indexes for each cell.
-    jaccardMaxMatrixAuto = zeros(autoNumCells);
-    jaccardMaxMatrixAuto(:) = max(jaccardFullMatrix(:));
+    jaccardMaxMatrixAuto = zeros(autoNumCells,1);
+    for i = 1:autoNumCells        
+        jaccardMaxMatrixAuto(i) = max(jaccardFullMatrix(i,:));
+    end
     
-    jaccardFullMatrixTranspose = transpose(jaccardFullMatrix);
-    jaccardMaxMatrixManual(:) = max(jaccardFullMatrixTranspose(:));
+    jaccardMaxMatrixManual = zeros(manualNumCells,1);
+    for i = 1:manualNumCells
+        jaccardMaxMatrixManual(i) = max(jaccardFullMatrix(:,i))
+    end
     
-    TP = size(find(jaccardMaxMatrixAuto >= 0.5));
-    FP = size(find(jaccardMaxMatrixAuto));
-    FN = size(find(jaccardMaxMatrixAuto < 0.5)) + size(find(jaccardMaxMatrixManual));    
+    TP = size(find(jaccardMaxMatrixAuto >= 0.5),1);
+    FP = size(find(~jaccardMaxMatrixAuto),1);
+    FN = size(find(jaccardMaxMatrixAuto < 0.5),1) + size(find(~jaccardMaxMatrixManual),1) - FP;    
     
     % Calculus of the recall - the same as sensitivity
     R = TP/(TP+FN);
