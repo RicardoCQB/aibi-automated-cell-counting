@@ -27,8 +27,6 @@ function [bottom, right] = excludeBorders(image)
     [H,T,R] = hough(Gmag, 'RhoResolution', 0.1, 'Theta', [-90, 0, 89]);
     numLines = 30;
     peaks = houghpeaks(H,numLines, 'Threshold', 0.4*max(H(:)));
-    x = T(peaks(:,2));
-    y = R(peaks(:,1));
     lines = houghlines(Gmag,T,R,peaks, 'FillGap', 1000);
     
     % Get the bottom and right lines that form the exterior boundaries of

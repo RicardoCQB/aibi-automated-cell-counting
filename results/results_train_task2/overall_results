@@ -1,0 +1,9 @@
+Original Image   |   True Positives   |   False Positives   |   False Negatives   |    Recall    |   Precision   |  F-me20151115_172901		10			1				2.0000
+		0.8333
+		0.9091
+		8.696000e-01		20151115_173835		6			3				4.0000
+		0.6000
+		0.6667
+		6.316000e-01		0				16		0.5000
+		1.0000
+		0.6667

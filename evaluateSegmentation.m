@@ -1,13 +1,13 @@
 % Function that compares the automatic segmentation with the ground truth,
-% manual segmentation, returning the number of cells found in both of them,
-% the number of true positives, false positives and false negatives and the
-% values of recall, precision and F-measure.
+% manual segmentation, returning the number of true positives, false 
+% positives and false negatives and the values of recall, precision and 
+% F-measure.
 % results_locations - coordinates of the rectangles calculated by
 % segmentation.
 % positive_locations - coordinates of the rectangles from the ground
 % truth.
 
-function [autoNumCells, manualNumCells, TP, FP, FN, R, P, F1] = evaluateSegmentation(results_locations, positive_locations)
+function [TP, FP, FN, R, P, F1] = evaluateSegmentation(results_locations, positive_locations)
     % Number of cells in the automatic and manual segmentation is equal to
     % the size of the corresponding array.
     autoNumCells = size(results_locations, 1);

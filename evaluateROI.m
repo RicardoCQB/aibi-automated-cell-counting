@@ -12,7 +12,7 @@ function [jaccardIndex, euclideanMax, euclideanMean] = evaluateROI(ROI, i)
     groundTruth = imread(nameGroundTruth);
     
     % Calculate the Jaccard index.
-    jaccardIndex = jaccard(ROI, groundTruth);
+    jaccardIndex = round(jaccard(ROI, groundTruth),4);
     
     % Get ROI vertices.
     structBoundariesROI = bwboundaries(ROI);
@@ -35,11 +35,6 @@ function [jaccardIndex, euclideanMax, euclideanMean] = evaluateROI(ROI, i)
     for i=1:4
         euclidean(i)  = sqrt((verticesROI(i,1) - verticesGT(i,1))^ 2 + (verticesROI(i,2) - verticesGT(i,2))^ 2);
     end
-    euclideanMax = max(euclidean);
-    euclideanMean = mean(euclidean);
-    
-    % Round all values to 4 decimal cases.
-    jaccardIndex = round(jaccardIndex, 4);
-    euclideanMax = round(euclideanMax, 4);
-    euclideanMean = round(euclideanMean, 4);
+    euclideanMax = round(max(euclidean),4);
+    euclideanMean = round(mean(euclidean),4);
 end

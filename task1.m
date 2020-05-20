@@ -32,7 +32,6 @@ for i=1:numImages
         
         % Evaluation of the previous segmentation.
         [jaccard, max, mean] = evaluateROI(ROI, i);
-        jaccard = round(jaccard, 4); max = round(max, 4); mean = round(mean, 4);
         
         % Save the segmented image in the results' folder.
         fullFileName = strcat(resultsDir,'\',folderInfo(i).name,'_resultMask.png');

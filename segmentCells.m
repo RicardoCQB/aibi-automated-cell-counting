@@ -11,7 +11,10 @@ function results_locations = segmentCells(image)
     bw = imbinarize(Gmag);
     
     % Identify circles.
-    [centersAux, radiiAux] = imfindcircles (bw, [14 50], 'ObjectPolarity', 'dark'); 
+    [centersAux1, radiiAux1] = imfindcircles(bw, [14 30], 'ObjectPolarity', 'dark'); 
+    [centersAux2, radiiAux2] = imfindcircles(bw, [30 50], 'ObjectPolarity', 'dark');
+    centersAux = cat(1, centersAux1, centersAux2);
+    radiiAux = cat(1, radiiAux1, radiiAux2);
     
     % Get the bottom and right lines from which the cells beyond them will
     % not be counted.
@@ -27,6 +30,7 @@ function results_locations = segmentCells(image)
         end
     end
     centers(:) = round(centers(:));
+    radii(:) = ceil(radii(:));
     
     % Obtain the surrounding rectangle.
     results_locations = zeros(size(centers, 1), 4);
@@ -38,7 +42,7 @@ function results_locations = segmentCells(image)
     end
     
     % Plot the surrounding rectangle. % ELIMINAR
-    for m=1:size(results_locations, 1)
-        rectangle('Position', [results_locations(m,1) results_locations(m,2) results_locations(m,3) results_locations(m,4)], 'EdgeColor', 'b', 'LineWidth', 1)
-    end
+%     for m=1:size(results_locations, 1)
+%         rectangle('Position', [results_locations(m,1) results_locations(m,2) results_locations(m,3) results_locations(m,4)], 'EdgeColor', 'b', 'LineWidth', 1)
+%     end
 end
