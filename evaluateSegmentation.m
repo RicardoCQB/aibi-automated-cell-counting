@@ -20,7 +20,7 @@ function [autoNumCells, manualNumCells, TP, FP, FN, R, P, F1] = evaluateSegmenta
     for i = 1:autoNumCells        
         autoCellMask = createCellMask(results_locations(i,1), results_locations(i,2),results_locations(i,3),results_locations(i,4));        
         for j = 1:manualNumCells
-            manualCellMask = createCellMask(positive_locations(i,1), positive_locations(i,2),positive_locations(i,3),positive_locations(i,4));
+            manualCellMask = createCellMask(positive_locations(j,1), positive_locations(j,2),positive_locations(j,3),positive_locations(j,4));
             jaccardFullMatrix(i,j) = jaccard(autoCellMask, manualCellMask);
         end
     end
@@ -30,11 +30,11 @@ function [autoNumCells, manualNumCells, TP, FP, FN, R, P, F1] = evaluateSegmenta
     jaccardMaxMatrixAuto(:) = max(jaccardFullMatrix(:));
     
     jaccardFullMatrixTranspose = transpose(jaccardFullMatrix);
-    jaccardMaxMatrixManual(:) = max(jaccardFullMatrixTranspose(:);
+    jaccardMaxMatrixManual(:) = max(jaccardFullMatrixTranspose(:));
     
     TP = size(find(jaccardMaxMatrixAuto >= 0.5));
     FP = size(find(jaccardMaxMatrixAuto));
-    FN = size(find(0 < jaccardMaxMatrix && jaccardMaxMatrix < 0.5)) + size(find(jaccardMaxMatrixManual));    
+    FN = size(find(jaccardMaxMatrixAuto < 0.5)) + size(find(jaccardMaxMatrixManual));    
     
     % Calculus of the recall - the same as sensitivity
     R = TP/(TP+FN);
