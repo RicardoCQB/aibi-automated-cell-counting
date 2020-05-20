@@ -17,11 +17,11 @@ function [autoNumCells, manualNumCells, TP, FP, FN, R, P, F1] = evaluateSegmenta
     
     TP = 0; FP = 0; FN = 0;
     % Runs the cells from the ground truth
-    for i=1:manualNumCells
-        positiveCell = positive_locations(i);
-        for j=1:autoNumCells
-            cell = results_locations(j);
-            % CONDIÇÕES E TAL
+    for i = 1:autoNumCells        
+        autoCellMask = createCellMask(results_locations(i,1), results_locations(i,2),results_locations(i,3),results_locations(i,4));        
+        for j = 1:manualNumCells
+            manualCellMask = createCellMask(positive_locations(i,1), positive_locations(i,2),positive_locations(i,3),positive_locations(i,4));
+            jaccardIndex(i,j) = jaccard(autoCellMask, manualCellMask);
         end
     end
     
