@@ -15,7 +15,7 @@ numImages = size(folderInfo, 1);
 % Set directory in which the results will be saved and the text file for
 % the results.
 resultsDir = 'results\results_train_task1';
-textFile = strcat(resultsDir, '\overall_results');
+textFile = strcat(resultsDir, '\overall_results.txt');
 fid = fopen(textFile, 'wt');
 header = 'Original Image   |   Jaccard Index   |   Maximum Euclidean Distance   |   Mean Euclidean Distance';
 fprintf(fid, '%s\n', header);
