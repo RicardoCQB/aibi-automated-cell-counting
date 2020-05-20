@@ -18,11 +18,9 @@ function [autoNumCells, manualNumCells, TP, FP, FN, R, P, F1] = evaluateSegmenta
     TP = 0; FP = 0; FN = 0;
     % Runs the cells from the ground truth
     for i = 1:autoNumCells        
-        autoCellMask = createCellMask(results_locations(i,1), results_locations(i,2),results_locations(i,3),results_locations(i,4));        
-        size(autoCellMask)
+        autoCellMask = createCellMask(results_locations(i,2), results_locations(i,1),results_locations(i,3),results_locations(i,4));        
         for j = 1:manualNumCells
-            manualCellMask = createCellMask(positive_locations(j,1), positive_locations(j,2),positive_locations(j,3),positive_locations(j,4));
-            size(manualCellMask)
+            manualCellMask = createCellMask(positive_locations(j,2), positive_locations(j,1),positive_locations(j,3),positive_locations(j,4));           
             jaccardFullMatrix(i,j) = jaccard(autoCellMask, manualCellMask);
         end
     end
@@ -35,7 +33,7 @@ function [autoNumCells, manualNumCells, TP, FP, FN, R, P, F1] = evaluateSegmenta
     
     jaccardMaxMatrixManual = zeros(manualNumCells,1);
     for i = 1:manualNumCells
-        jaccardMaxMatrixManual(i) = max(jaccardFullMatrix(:,i))
+        jaccardMaxMatrixManual(i) = max(jaccardFullMatrix(:,i));
     end
     
     TP = size(find(jaccardMaxMatrixAuto >= 0.5),1);
