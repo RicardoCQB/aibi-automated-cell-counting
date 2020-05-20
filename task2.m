@@ -30,8 +30,6 @@ for i=3:5
         ROI = getROI(input, i);
         figure, imshow(ROI), hold on;
         
-        [bottom, right] = excludeBorders(ROI);
-        
         % Segment the cells in the ROI
         [centers, radii] = segmentCells(ROI);
         

@@ -1,6 +1,6 @@
 % Function that compares the automatic segmentation with the ground truth,
 % manual segmentation, returning the number of cells found in both of them,
-% the number of true positives, false poditives and false negatives and the
+% the number of true positives, false positives and false negatives and the
 % values of recall, precision and F-measure
 
 function [autoNumCells, manualNumCells, TP, FP, FN, R, P, F1] = evaluateSegmentation(results_locations, positive_locations)

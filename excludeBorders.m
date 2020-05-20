@@ -41,7 +41,7 @@ function [bottom, right] = excludeBorders(image)
             if (lines(k).rho > rightEnd)
                 rightEnd = lines(k).rho;
             end
-        elseif (lines(k).theta == -90)
+        elseif (lines(k).theta == -90 || lines(k).theta==89)
             if (lines(k).rho>bottomEnd)
                 bottomEnd = lines(k).rho;
             end
