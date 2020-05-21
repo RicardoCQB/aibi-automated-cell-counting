@@ -18,7 +18,7 @@ header = 'Original Image   |   True Positives   |   False Positives   |   False 
 fprintf(fid, '%s\n', header);
 
 % Open and process the images sequentially.
-for i=1:10
+for i=1:3
     if ((originalFolderInfo(i).bytes)~=0)
         % Open original image and turn it to grayscale.
         nameImage = strcat(nameOriginalDir,'\',originalFolderInfo(i).name);
@@ -33,7 +33,7 @@ for i=1:10
         % Segment the cells and obtain the results of the automatic segmentation 
         % and the ground truth.
         positive_locations = getGroundTruth(i);
-        results_locations = segmentCells(ROI);       
+        [centers, radii, results_locations] = segmentCells(ROI);       
         
         % Save the information concerning the rectangle surrounding a cell
         % to .mat file.
