@@ -8,13 +8,13 @@
 
 % Open the directiory of the orignal images and get the number of images to
 % be segmented.
-nameDir = 'train-images\train_images';
+nameDir = 'test-images\test_images';
 folderInfo = dir(nameDir);
 numImages = size(folderInfo, 1);
 
 % Set directory in which the results will be saved and the text file for
 % the results.
-resultsDir = 'results\results_train_task1';
+resultsDir = 'results\results_test_task1';
 textFile = strcat(resultsDir, '\overall_results.txt');
 fid = fopen(textFile, 'wt');
 header = 'Original Image   |   Jaccard Index   |   Maximum Euclidean Distance   |   Mean Euclidean Distance';

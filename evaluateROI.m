@@ -4,7 +4,7 @@
 
 function [jaccardIndex, euclideanMax, euclideanMean] = evaluateROI(ROI, i)
     % Name of the directiory of the masks.
-    nameGroundTruthDir = 'train-images\train_ROI_images';
+    nameGroundTruthDir = 'test-images\test_ROI_images';
     groundTruthFolderInfo = dir(nameGroundTruthDir);
     
     % Get the mask of the corresponding index.
