@@ -3,7 +3,7 @@
 % The obtained cells will be compared with the ground truth and evaluated
 % using the number of counted cells, true positives, false positives, false
 % negatives, recall, precision and F1-measure.
-tic
+%tic
 % Name of the directiory of the orignal images.
 nameOriginalDir = 'train-images\train_images';
 originalFolderInfo = dir(nameOriginalDir);
@@ -18,7 +18,7 @@ header = 'Original Image   |   True Positives   |   False Positives   |   False 
 fprintf(fid, '%s\n', header);
 
 % Open and process the images sequentially.
-for i=1:numImages
+for i=1:10
     if ((originalFolderInfo(i).bytes)~=0)
         % Open original image and turn it to grayscale.
         nameImage = strcat(nameOriginalDir,'\',originalFolderInfo(i).name);
@@ -42,21 +42,21 @@ for i=1:numImages
         save(fullFileName, 'results_locations');
        
         % Evaluate the obtained segmenation.
-        [TP, FP, FN, R, P, F1] = evaluateSegmentation(results_locations, positive_locations);
+        [TP, FP, FN, R, P, F1] = evaluateSegmentationOverlapBox(results_locations, positive_locations);
         fprintf(fid, '%s\t\t%i\t\t\t%i\t\t\t%i\t\t%2.4f\t\t%2.4f\t\t%2.4f\n', erase(originalFolderInfo(i).name, '.tiff'), TP, FP, FN, R, P, F1);
-        %subplot(1,2,2) % ELIMINAR
-        %text(0, 0.58, "True Positives: " + TP); hold on;
-        %text(0, 0.53, "False Positives: " + FP); hold on;
-        %text(0, 0.48, "False Negatives: " + FN); hold on;
-        %text(0, 0.43, "Recall: " + R); hold on;
-        %text(0, 0.38, "Precision: " + P); hold on;
-        %text(0, 0.33, "F-measure: " + F1); hold on;
-        %axis off;
+        figure, subplot(1,2,2) % ELIMINAR
+        text(0, 0.68, "True Positives: " + TP); hold on;
+        text(0, 0.63, "False Positives: " + FP); hold on;
+        text(0, 0.58, "False Negatives: " + FN); hold on;
+        text(0, 0.53, "Recall: " + R); hold on;
+        text(0, 0.48, "Precision: " + P); hold on;
+        text(0, 0.43, "F-measure: " + F1); hold on;
+        axis off;
         
-        %pause; % ELIMINAR
+        pause; % ELIMINAR
     end
 end
 
 % Close the text file.
 fclose(fid);
-disp(toc)
+%disp(toc)

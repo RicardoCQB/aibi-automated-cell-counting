@@ -9,7 +9,7 @@ function positive_locations = getGroundTruth(i)
     positive_locations = results.cell_roi_pos;
     
     % Creates a green rectangle around the located cells. % ELIMINAR
-%     for n=1:size(positive_locations, 1)
-%         rectangle('Position', [positive_locations(n,1) positive_locations(n,2) positive_locations(n,3) positive_locations(n,4)], 'EdgeColor', 'g', 'LineWidth', 1)
-%     end
+%      for n=1:size(positive_locations, 1)
+%          rectangle('Position', [positive_locations(n,1) positive_locations(n,2) positive_locations(n,3) positive_locations(n,4)], 'EdgeColor', 'g', 'LineWidth', 1)
+%      end
 end

@@ -9,12 +9,15 @@ function results_locations = segmentCells(image)
     % Get the borders and turn the image into black and white.
     [Gmag, Gdir] = imgradient(adapt, 'sobel');
     bw = imbinarize(Gmag);
+     figure, imshow(bw), hold on;
     
     % Identify circles.
-    [centersAux1, radiiAux1] = imfindcircles(bw, [14 30], 'ObjectPolarity', 'dark'); 
-    [centersAux2, radiiAux2] = imfindcircles(bw, [30 50], 'ObjectPolarity', 'dark');
-    centersAux = cat(1, centersAux1, centersAux2);
-    radiiAux = cat(1, radiiAux1, radiiAux2);
+    [centersAux_1, radiiAux_1] = imfindcircles(bw, [14 30], 'ObjectPolarity', 'dark'); 
+    [centersAux_2, radiiAux_2] = imfindcircles(bw, [30 50], 'ObjectPolarity', 'dark');
+    [centersAux_3, radiiAux_3] = imfindcircles(bw, [14 30]);
+    [centersAux_4, radiiAux_4] = imfindcircles(bw, [30 50]);
+    centersAux = cat(1, centersAux_1, centersAux_2, centersAux_3, centersAux_4);
+    radiiAux = cat(1, radiiAux_1, radiiAux_2, radiiAux_3, radiiAux_4);
     
     % Get the bottom and right lines from which the cells beyond them will
     % not be counted.
@@ -32,17 +35,27 @@ function results_locations = segmentCells(image)
     centers(:) = round(centers(:));
     radii(:) = ceil(radii(:));
     
+    auxC(:) = centers(:); auxR(:) = radii(:);
+    m = 1;
+    for a=size(centers,1):-1:1
+        if (centers(a,1)<=auxC(:,1)-auxR(:) && centers(a,1)>=auxC(:,1)+auxR(:))
+            centersFinal(m,:) = [centers(a,1) centers(a,2)];
+            radiiFinal(m) = radii(a);
+            m=m+1;
+        end
+    end
+    
     % Obtain the surrounding rectangle.
-    results_locations = zeros(size(centers, 1), 4);
-    for n=1:size(centers, 1)
-        results_locations(n, 1) = centers(n, 1) - radii(n);
-        results_locations(n, 2) = centers(n, 2) - radii(n);
-        results_locations(n, 3) = radii(n)*2;
-        results_locations(n, 4) = radii(n)*2;
+    results_locations = zeros(size(centersFinal, 1), 4);
+    for n=1:size(centersFinal, 1)
+        results_locations(n, 1) = centersFinal(n, 1) - radii(n);
+        results_locations(n, 2) = centersFinal(n, 2) - radii(n);
+        results_locations(n, 3) = radiiFinal(n)*2;
+        results_locations(n, 4) = radiiFinal(n)*2;
     end
     
     % Plot the surrounding rectangle. % ELIMINAR
-%     for m=1:size(results_locations, 1)
-%         rectangle('Position', [results_locations(m,1) results_locations(m,2) results_locations(m,3) results_locations(m,4)], 'EdgeColor', 'b', 'LineWidth', 1)
-%     end
+    for m=1:size(results_locations, 1)
+        rectangle('Position', [results_locations(m,1) results_locations(m,2) results_locations(m,3) results_locations(m,4)], 'EdgeColor', 'b', 'LineWidth', 1)
+    end
 end
