@@ -1,2 +1,1 @@
 Original Image   |   True Positives   |   False Positives   |   False Negatives   |     Recall     |   Precision   |   F-measure
-20151115_172901		16			1			2		0.8889		0.9412		0.9143

@@ -15,11 +15,11 @@ function [TP, FP, FN, R, P, F1] = evaluateSegmentation(results_locations, positi
     
     % Calculate the Jaccard index matrix for each combination of cells.
     jaccardFullMatrix = zeros(autoNumCells, manualNumCells);       
-    for i = 1:autoNumCells        
-        autoCellMask = createCellMask(results_locations(i,2), results_locations(i,1),results_locations(i,3),results_locations(i,4));        
+    for i = 1:autoNumCells    
+        autoRectangle = [results_locations(i,2) results_locations(i,1) results_locations(i,3) results_locations(i,4)];        
         for j = 1:manualNumCells
-            manualCellMask = createCellMask(positive_locations(j,2), positive_locations(j,1),positive_locations(j,3),positive_locations(j,4));           
-            jaccardFullMatrix(i,j) = jaccard(autoCellMask, manualCellMask);
+            manualRectangle = [positive_locations(j,2) positive_locations(j,1) positive_locations(j,3) positive_locations(j,4)];            
+            jaccardFullMatrix(i,j) = bboxOverlapRatio(autoRectangle,manualRectangle);
         end
     end
     

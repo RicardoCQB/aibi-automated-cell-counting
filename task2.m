@@ -33,7 +33,7 @@ for i=1:3
         % Segment the cells and obtain the results of the automatic segmentation 
         % and the ground truth.
         positive_locations = getGroundTruth(i);
-        [centers, radii, results_locations] = segmentCells(ROI);       
+        results_locations = segmentCells(ROI);       
         
         % Save the information concerning the rectangle surrounding a cell
         % to .mat file.
@@ -42,7 +42,7 @@ for i=1:3
         save(fullFileName, 'results_locations');
        
         % Evaluate the obtained segmenation.
-        [TP, FP, FN, R, P, F1] = evaluateSegmentationOverlapBox(results_locations, positive_locations);
+        [TP, FP, FN, R, P, F1] = evaluateSegmentation(results_locations, positive_locations);
         fprintf(fid, '%s\t\t%i\t\t\t%i\t\t\t%i\t\t%2.4f\t\t%2.4f\t\t%2.4f\n', erase(originalFolderInfo(i).name, '.tiff'), TP, FP, FN, R, P, F1);
         figure, subplot(1,2,2) % ELIMINAR
         text(0, 0.68, "True Positives: " + TP); hold on;

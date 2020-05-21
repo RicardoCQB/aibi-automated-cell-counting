@@ -1,7 +1,7 @@
 % Function that returns positions of the segmented cells in the image it
 % recieves as input as a rectangle that surrounds it.
 
-function [centers, radii, results_locations] = segmentCells(image)
+function results_locations = segmentCells(image)
     % Reduce noise and enhance contrast.
     med = medfilt2(image, [5 5]);
     adapt = adapthisteq(med);
@@ -19,6 +19,18 @@ function [centers, radii, results_locations] = segmentCells(image)
     centersAux = cat(1, centersAux_1, centersAux_2, centersAux_3, centersAux_4);
     radiiAux = cat(1, radiiAux_1, radiiAux_2, radiiAux_3, radiiAux_4);
     
+    % Eliminate repeated cells
+    auxC = centersAux; auxR = radiiAux;
+    for a=size(centersAux,1):-1:1
+        for b=size(centersAux, 1):-1:1
+            if (centersAux(a,1)>=auxC(b,1)-auxR(b) && centersAux(a,1)<=auxC(b,1)+auxR(b))
+                centersAux(a,:)=[]; radiiAux(a)=[];
+                auxC(a,:)=[]; auxR(a)=[];
+                break
+            end
+        end
+    end
+    
     % Get the bottom and right lines from which the cells beyond them will
     % not be counted.
     [bottom, right] = excludeBorders(image);
@@ -32,19 +44,8 @@ function [centers, radii, results_locations] = segmentCells(image)
             n = n+1;
         end
     end
-    centers(:) = round(centers(:));
-    radii(:) = ceil(radii(:));
-    
-    auxC = centers; auxR = radii;
-    for a=size(centers,1):-1:1
-        for b=size(auxC, i):-1:1
-            if (centers(a,1)>=auxC(b,1)-auxR(b) && centers(a,1)<=auxC(b,1)+auxR(b))
-                centers(a,:)=[]; radii(a)=[];
-                auxC(a,:)=[]; auxR(a)=[];
-                break
-            end
-        end
-    end
+    centers = round(centers);
+    radii = ceil(radii);
     
     % Obtain the surrounding rectangle.
     results_locations = zeros(size(centers, 1), 4);
