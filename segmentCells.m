@@ -37,10 +37,10 @@ function [centers, radii, results_locations] = segmentCells(image)
     
     auxC = centers; auxR = radii;
     for a=size(centers,1):-1:1
-        for b=1:size(auxC, i)
+        for b=size(auxC, i):-1:1
             if (centers(a,1)>=auxC(b,1)-auxR(b) && centers(a,1)<=auxC(b,1)+auxR(b))
-                centers(a,:)=[];
-                radii(a)=[];
+                centers(a,:)=[]; radii(a)=[];
+                auxC(a,:)=[]; auxR(a)=[];
                 break
             end
         end
