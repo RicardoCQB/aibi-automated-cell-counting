@@ -1,16 +1,15 @@
 %% Cell segmentation and counting
-% The goal is to segment the cells inside the ROI and count them.
-% The obtained cells will be compared with the ground truth and evaluated
+% The goal of the script is to segment the cells inside the ROI and count them.
+% The obtained cells will be compared with the ground truth cells and evaluated
 % using the number of counted cells, true positives, false positives, false
 % negatives, recall, precision and F1-measure.
 
-% Name of the directiory of the orignal images.
+% Name of the directory of the original images.
 nameOriginalDir = 'train-images\train_images';
 originalFolderInfo = dir(nameOriginalDir);
 numImages = size(originalFolderInfo, 1);
 
-% Set directory in which the results will be saved and the text file for
-% the results.
+% Directory destination for results and overall_results.
 resultsDir = 'results\results_train_task2';
 textFile = strcat(resultsDir, '\overall_results.txt');
 fid = fopen(textFile, 'wt');

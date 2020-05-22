@@ -1,12 +1,12 @@
 % Function that returns positions of the segmented cells in the image it
-% recieves as input as a rectangle that surrounds it.
+% receives as input as a rectangle that surrounds it.
 
 function results_locations = segmentCells(image)
     % Reduce noise and enhance contrast.
     med = medfilt2(image, [5 5]);
     adapt = adapthisteq(med);
     
-    % Get the borders and turn the image into black and white.
+    % Enhance the borders with he gradient filter and turn the image into black and white.
     [Gmag, Gdir] = imgradient(adapt, 'sobel');
     bw = imbinarize(Gmag);
     
@@ -20,11 +20,12 @@ function results_locations = segmentCells(image)
     centersAux = round(centersAux);
     radiiAux = ceil(radiiAux);
     
-    % Get the bottom and right lines from which the cells beyond them will
-    % not be counted.
+    % Get the bottom and right line coordinates of the squared grid.
+    % These coordinates are used to exclude all the cells that are beyond these
+    % borders.
     [bottom, right] = excludeBorders(image);
     
-    % Eliminate the cells beyond these lines.
+    % Eliminates the cells beyond the bottom and right lines of the grid.
     n = 1;
     for i=1:size(centersAux,1)
         if (centersAux(i,2)<=bottom && centersAux(i,1)<=right)
@@ -34,7 +35,11 @@ function results_locations = segmentCells(image)
         end
     end
 
-    % Obtain the surrounding rectangle.
+    % Obtain the surrounding rectangle of each cell and stores it in an array.
+    % First and second column of the array reprents the x and y coordinate
+    % of the rectangle's top left corner.
+    % Third and second column represent the vertical and horizontal length
+    % of each rectangle.
     results_locations = zeros(size(centers, 1), 4);
     for n=1:size(centers, 1)
         results_locations(n, 1) = centers(n, 1) - radii(n);
@@ -43,13 +48,17 @@ function results_locations = segmentCells(image)
         results_locations(n, 4) = radii(n)*2;
     end
 
-    % Erase repeated cells.
+    % Eliminates cells that are segmented more than once.
+    
     unique(results_locations,'rows');
+    
     overlapRatio = bboxOverlapRatio(results_locations,results_locations,'min');
     overlapRatio = tril(overlapRatio);
+    
     for a=1:size(overlapRatio,1)
         overlapRatio(a,a) = 0;
     end
+    
     indexToErase = 1;
     [overlaprow, overlapcol] = find(overlapRatio>=0.5);
     for j=1:size(overlaprow)
@@ -63,6 +72,7 @@ function results_locations = segmentCells(image)
             indexToErase = indexToErase+1;
         end
     end
+    
     unique(eraseInd);
     results_locations(eraseInd,:)=[];
     

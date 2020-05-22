@@ -17,7 +17,7 @@ function ROI = segmentROI(input)
     ROI_close = imclose(ROI_bin, SE_vertical);
     ROI_close = imclose(ROI_close, SE_horizontal);
 
-    % We use the open operation to prevent eroding the width of the big lines, 
+    % Use of open operation to prevent eroding the width of the thick lines, 
     % while eroding the thinner ones.
     SE = strel('disk', 17);
     ROI_open = imopen(ROI_close, SE);
@@ -27,7 +27,8 @@ function ROI = segmentROI(input)
 
     % Get the boundaries of the image.
     ROI_boundariesStruct = bwboundaries(ROI_fill);
-    ROI_boundaries = ROI_boundariesStruct{1}; 
+    ROI_boundaries = ROI_boundariesStruct{1};
+    
     % Get rows and columns of the previous array separately.
     x = ROI_boundaries(:, 2);
     y = ROI_boundaries(:, 1);
