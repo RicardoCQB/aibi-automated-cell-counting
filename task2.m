@@ -3,15 +3,15 @@
 % The obtained cells will be compared with the ground truth and evaluated
 % using the number of counted cells, true positives, false positives, false
 % negatives, recall, precision and F1-measure.
-tic
+
 % Name of the directiory of the orignal images.
-nameOriginalDir = 'test-images\test_images';
+nameOriginalDir = 'train-images\train_images';
 originalFolderInfo = dir(nameOriginalDir);
 numImages = size(originalFolderInfo, 1);
 
 % Set directory in which the results will be saved and the text file for
 % the results.
-resultsDir = 'results\results_test_task2';
+resultsDir = 'results\results_train_task2';
 textFile = strcat(resultsDir, '\overall_results.txt');
 fid = fopen(textFile, 'wt');
 header = 'Original Image   |   Number of Cells   |   True Positives   |   False Positives   |   False Negatives   |     Recall     |   Precision   |   F-measure';
@@ -58,4 +58,3 @@ end
 
 % Close the text file.
 fclose(fid);
-disp(toc)

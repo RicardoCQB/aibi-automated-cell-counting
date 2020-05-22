@@ -3,7 +3,7 @@
 
 function positive_locations = getGroundTruth(i)
     % Get the ideal cell locations from the manual segmentation.
-    nameResultsDir = 'test-images\test';
+    nameResultsDir = 'train-images\train';
     resultsFolderInfo = dir(nameResultsDir);
     results = load(strcat(nameResultsDir, '\', resultsFolderInfo(i).name));
     positive_locations = results.cell_roi_pos;
