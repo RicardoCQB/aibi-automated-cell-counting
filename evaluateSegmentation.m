@@ -1,13 +1,13 @@
 % Function that compares the automatic segmentation with the ground truth,
-% manual segmentation, returning the number of true positives, false 
-% positives and false negatives and the values of recall, precision and 
-% F-measure.
+% manual segmentation, returning the number of counted cells, true positives, 
+% false positives and false negatives and the values of recall, precision 
+% and F-measure.
 % results_locations - coordinates of the rectangles calculated by
 % segmentation.
 % positive_locations - coordinates of the rectangles from the ground
 % truth.
 
-function [TP, FP, FN, R, P, F1] = evaluateSegmentation(results_locations, positive_locations)
+function [autoNumCells, TP, FP, FN, R, P, F1] = evaluateSegmentation(results_locations, positive_locations)
     % Number of cells in the automatic and manual segmentation is equal to
     % the size of the corresponding array.
     autoNumCells = size(results_locations, 1);
@@ -37,8 +37,8 @@ function [TP, FP, FN, R, P, F1] = evaluateSegmentation(results_locations, positi
     % Get the amount of true positives, false positives and false
     % negatives.
     TP = size(find(jaccardMaxMatrixAuto >= 0.5),1);
-    FP = size(find(~jaccardMaxMatrixAuto),1);
-    FN = size(find(jaccardMaxMatrixAuto < 0.5),1) + size(find(~jaccardMaxMatrixManual),1) - FP;    
+    FP = size(find(jaccardMaxMatrixAuto < 0.01),1);
+    FN = size(find(jaccardMaxMatrixAuto < 0.5),1) + size(find(jaccardMaxMatrixManual < 0.01),1) - FP;    
     
     % Calculus of the recall - the same as sensitivity.
     R = round(TP/(TP+FN),4);

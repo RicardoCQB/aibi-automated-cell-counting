@@ -29,9 +29,18 @@ for i=1:numImages
         
         % Segmentation of the image.
         ROI = segmentROI(input);
+        figure, subplot(2,2,1)
+%         imshow(labeloverlay(input, ROI)), title("Image " + (i-2) + " overlayed with segmented ROI");
+%         subplot(2,2,2)
+%         imshow(ROI), title('Segmented ROI');
         
         % Evaluation of the previous segmentation.
         [jaccard, max, mean] = evaluateROI(ROI, i);
+%         subplot(2,2,[3 4])
+%         text(0.3, 1, "Jaccard Index: " + jaccard); hold on;
+%         text(0.2, 0.9, "Maximum Euclidean Distances: " + max); hold on;
+%         text(0.21, 0.8, "Mean of Euclidean Distances: " + mean); hold on;
+%         axis off;
         
         % Save the segmented image in the results' folder.
         fullFileName = strcat(resultsDir,'\',folderInfo(i).name,'_resultMask.png');
