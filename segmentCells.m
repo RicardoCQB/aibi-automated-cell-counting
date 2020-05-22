@@ -1,4 +1,4 @@
-% Function that returns positions of the segmented cells in the image it
+ % Function that returns positions of the segmented cells in the image it
 % recieves as input as a rectangle that surrounds it.
 
 function results_locations = segmentCells(image)
