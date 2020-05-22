@@ -18,18 +18,18 @@ function results_locations = segmentCells(image)
     [centersAux_4, radiiAux_4] = imfindcircles(bw, [30 50]);
     centersAux = cat(1, centersAux_1, centersAux_2, centersAux_3, centersAux_4);
     radiiAux = cat(1, radiiAux_1, radiiAux_2, radiiAux_3, radiiAux_4);
-    
-    % Eliminate repeated cells
-    auxC = centersAux; auxR = radiiAux;
-    for a=size(centersAux,1):-1:1
-        for b=size(centersAux, 1):-1:1
-            if (centersAux(a,1)>=auxC(b,1)-auxR(b) && centersAux(a,1)<=auxC(b,1)+auxR(b))
-                centersAux(a,:)=[]; radiiAux(a)=[];
-                auxC(a,:)=[]; auxR(a)=[];
-                break
-            end
-        end
-    end
+    viscircles(centersAux,radiiAux)
+%     % Eliminate repeated cells
+%     auxC = centersAux; auxR = radiiAux;
+%     for a=size(centersAux,1):-1:1
+%         for b=size(centersAux, 1):-1:1
+%             if (centersAux(a,1)>=auxC(b,1)-auxR(b) && centersAux(a,1)<=auxC(b,1)+auxR(b))
+%                 centersAux(a,:)=[]; radiiAux(a)=[];
+%                 auxC(a,:)=[]; auxR(a)=[];
+%                 break
+%             end
+%         end
+%     end
     
     % Get the bottom and right lines from which the cells beyond them will
     % not be counted.
@@ -55,6 +55,31 @@ function results_locations = segmentCells(image)
         results_locations(n, 3) = radii(n)*2;
         results_locations(n, 4) = radii(n)*2;
     end
+
+    %Erase repeated cells
+    unique(results_locations,'rows');
+    overlapRatio = bboxOverlapRatio(results_locations,results_locations,'min');
+    overlapRatio=tril(overlapRatio);
+    for a=1:size(overlapRatio,1)
+            overlapRatio(a,a)=0;
+    end
+    
+    %No longer symmetric
+    indexToErase=1;
+    [overlaprow overlapcol]=find(overlapRatio>=0.80);
+    for j=1:size(overlaprow)
+        areaBBoxA=results_locations(overlaprow(j),3)^2;
+        areaBBoxB=results_locations(overlapcol(j),3)^2;
+        if areaBBoxA<=areaBBoxB
+            eraseInd(indexToErase)=overlaprow(j);
+            indexToErase=indexToErase+1;
+        else
+            eraseInd(indexToErase)=overlapcol(j);
+            indexToErase=indexToErase+1;
+        end
+    end
+    unique(eraseInd)
+    results_locations(eraseInd,:)=[];
     
     % Plot the surrounding rectangle. % ELIMINAR
     for m=1:size(results_locations, 1)

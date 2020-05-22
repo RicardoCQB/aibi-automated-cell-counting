@@ -18,7 +18,7 @@ header = 'Original Image   |   True Positives   |   False Positives   |   False 
 fprintf(fid, '%s\n', header);
 
 % Open and process the images sequentially.
-for i=1:3
+for i=27:numImages
     if ((originalFolderInfo(i).bytes)~=0)
         % Open original image and turn it to grayscale.
         nameImage = strcat(nameOriginalDir,'\',originalFolderInfo(i).name);
@@ -42,16 +42,16 @@ for i=1:3
         save(fullFileName, 'results_locations');
        
         % Evaluate the obtained segmenation.
-        [TP, FP, FN, R, P, F1] = evaluateSegmentation(results_locations, positive_locations);
-        fprintf(fid, '%s\t\t%i\t\t\t%i\t\t\t%i\t\t%2.4f\t\t%2.4f\t\t%2.4f\n', erase(originalFolderInfo(i).name, '.tiff'), TP, FP, FN, R, P, F1);
-        figure, subplot(1,2,2) % ELIMINAR
-        text(0, 0.68, "True Positives: " + TP); hold on;
-        text(0, 0.63, "False Positives: " + FP); hold on;
-        text(0, 0.58, "False Negatives: " + FN); hold on;
-        text(0, 0.53, "Recall: " + R); hold on;
-        text(0, 0.48, "Precision: " + P); hold on;
-        text(0, 0.43, "F-measure: " + F1); hold on;
-        axis off;
+%         [TP, FP, FN, R, P, F1] = evaluateSegmentation(results_locations, positive_locations);
+%         fprintf(fid, '%s\t\t%i\t\t\t%i\t\t\t%i\t\t%2.4f\t\t%2.4f\t\t%2.4f\n', erase(originalFolderInfo(i).name, '.tiff'), TP, FP, FN, R, P, F1);
+%         figure, subplot(1,2,2) % ELIMINAR
+%         text(0, 0.68, "True Positives: " + TP); hold on;
+%         text(0, 0.63, "False Positives: " + FP); hold on;
+%         text(0, 0.58, "False Negatives: " + FN); hold on;
+%         text(0, 0.53, "Recall: " + R); hold on;
+%         text(0, 0.48, "Precision: " + P); hold on;
+%         text(0, 0.43, "F-measure: " + F1); hold on;
+%         axis off;
         
         pause; % ELIMINAR
     end
