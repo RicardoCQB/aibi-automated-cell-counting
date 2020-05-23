@@ -15,3 +15,7 @@ Mariana Xavier
 
 Started: 08/04/2020
 Finished: 23/05/2020
+
+<object data="https://github.com/RicardoCQB/aibi-automated-cell-counting/blob/master/AIBI-ProjectPresentation_2019-20.pdf" width="700px" height="700px">
+    <embed src="https://github.com/RicardoCQB/aibi-automated-cell-counting/blob/master/AIBI-ProjectPresentation_2019-20.pdf"></embed>
+</object>
